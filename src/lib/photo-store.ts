@@ -84,6 +84,20 @@ export const photoStore = {
       photos: state.photos.map((p) => (p.id === id ? { ...p, status: "pending" } : p)),
     });
   },
+  setFavoriteMany(ids: string[], favorite: boolean) {
+    const idSet = new Set(ids);
+    setState({
+      ...state,
+      photos: state.photos.map((p) => (idSet.has(p.id) ? { ...p, favorite } : p)),
+    });
+  },
+  restoreMany(ids: string[]) {
+    const idSet = new Set(ids);
+    setState({
+      ...state,
+      photos: state.photos.map((p) => (idSet.has(p.id) ? { ...p, status: "pending" } : p)),
+    });
+  },
   undo() {
     const last = state.history[state.history.length - 1];
     if (!last) return;
